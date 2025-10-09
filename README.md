@@ -1,89 +1,24 @@
-# Django + Vue Contacts App
+# K-Drama Tracker 🎬💖
 
-A full-stack web application with a **Django REST API backend** (MySQL database)
-and a **Vue 3 frontend**.
-Originally built with a plain HTML/JS frontend, now upgraded to Vue.
+A web app built with **React + Django REST Framework** that lets you **add, favorite, and explore your favorite K-Dramas** — all in one place!
 
-## Features
+### 💡 Features
+- Add and manage K-Drama entries
+- Favorite / unfavorite dramas
+- View, search, and organize by title or genre
+- Simple, modern interface built with React
 
-### Backend (Django)
+### 🛠️ Tech Stack
+- **Frontend:** React, Axios, MUI Icons  
+- **Backend:** Django + Django REST Framework  
+- **Database:** SQLite  
+- **API:** TMDB (for drama posters)
 
-* Django REST Framework API for creating, listing, and deleting contacts
-* MySQL database integration
-* Fully functional CRUD operations
+### 📖 About
+This project was created to practice **full-stack development** with a REST API backend and a React frontend.  
+It demonstrates CRUD functionality, API integration, and responsive UI design.
 
-### Frontend (Vue)
-
-* Modern Vue 3 UI for submitting and viewing contacts
-* Axios for API calls
-* Automatically updates the list when new contacts are added
-* Uses `v-model` for two-way data binding and `onMounted` for fetching initial data
-
-## Tech Stack
-
-* **Backend:** Python 3.x, Django 4.x, Django REST Framework, MySQL
-* **Frontend:** Vue 3, Vite, Axios
-
-## Getting Started
-
-### 1. Clone Repository
-
-```bash
-git clone https://github.com/chplus2/django-vue-contacts.git
-cd django-vue-contacts
-```
-
-### 2. Backend Setup
-
-```bash
-python -m venv venv
-# Windows PowerShell
-.\venv\Scripts\activate
-# macOS/Linux
-source venv/bin/activate
-
-pip install -r requirements.txt
-```
-
-Edit `myproject/settings.py` to match your MySQL credentials.
-
-Run migrations and start the server:
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
-```
-
-Backend runs at **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)**.
-
-### 3. Frontend Setup
-
-From the project root:
-
-```bash
-cd vue-contacts
-npm install
-npm run dev
-```
-
-Frontend runs at **[http://localhost:5173/](http://localhost:5173/)** and proxies API calls to the Django server.
-
-
-## API Endpoints
-
-* `GET /api/contacts/` – list all contacts
-* `POST /api/contacts/` – create a new contact
-* `DELETE /api/contacts/<id>/` – delete a contact
-
-## What I Learned
-
-* Integrating Django REST Framework with MySQL
-* Building a Vue 3 app that consumes a REST API
-* Using `ref`, `reactive`, and `v-model` for state management
-* CRUD operations and handling CORS
-
-## Notes
-
-* CSRF protection is disabled in the API for simplicity—**do not use this setup in production**.
-* The original plain-HTML frontend remains in the repo for reference but is replaced by Vue.
+### 🔗 Repository
+Feel free to explore the code in both:
+- `react-dramas/` → React source  
+- `myapp/` → Django API source
