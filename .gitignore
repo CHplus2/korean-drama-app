@@ -17,5 +17,8 @@ db.sqlite3
 # VS Code settings
 .vscode/
 
-# React
-react-contacts/
+# Vue
+vue-contacts/
+
+#.env
+.env
