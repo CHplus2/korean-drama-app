@@ -1,4 +1,4 @@
-# K-Drama Tracker 
+# K-STREAM
 
 A full-stack web application built with **React** and **Django REST Framework** that allows users to add, favorite, and explore their favorite Korean dramas in one place.
 
