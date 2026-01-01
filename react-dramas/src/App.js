@@ -45,12 +45,8 @@ function AnimatedRoutes({ dramas, setDramas, isAuthenticated, setShowLogin, isFa
               >
                 <Dramas 
                   dramas={dramas}
-                  setShowLogin={setShowLogin} 
-                  isAuthenticated={isAuthenticated} 
                   isFavorited={isFavorited} 
                   handleFavorite={handleFavorite}
-                  setDeleteModalOpen={setDeleteModalOpen}
-                  setDramaToDelete={setDramaToDelete}
                   handleDelete={handleDelete}
                   handleEdit={handleEdit}
                 />
