@@ -1,4 +1,4 @@
-# K-Drama Tracker 🎬
+# K-Drama Tracker 
 
 A full-stack web application built with **React** and **Django REST Framework** that allows users to add, favorite, and explore their favorite Korean dramas in one place.
 
@@ -6,7 +6,7 @@ This project focuses on building a clean REST API backend and integrating it wit
 
 
 
-## ✨ Features
+## Features
 
 * Add, edit, and delete K-Drama entries
 * Favorite / unfavorite dramas
@@ -16,7 +16,7 @@ This project focuses on building a clean REST API backend and integrating it wit
 
 
 
-## 🛠 Tech Stack
+## Tech Stack
 
 **Frontend**
 
@@ -37,9 +37,9 @@ This project focuses on building a clean REST API backend and integrating it wit
 
 * TMDB (The Movie Database)
 
----
 
-## 📂 Project Structure
+
+## Project Structure
 
 ```
 react-dramas/   # React frontend
