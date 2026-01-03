@@ -58,7 +58,7 @@ class FavoriteViewSet(viewsets.ViewSet):
     
     def destroy(self, request, pk=None):
         try:
-            favorite = Favorite.objects.get(pk=pk)
+            favorite = Favorite.objects.get(pk=pk, user=request.user)
         except Favorite.DoesNotExist:
             return Response({"detail": "Not found"}, status=404)
         
