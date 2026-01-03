@@ -174,7 +174,7 @@ function App() {
         withCredentials: true,
         headers: { "X-CSRFToken": getCookie("csrftoken") },
       });
-      setIsAuthenticated(false);
+      checkAuth();
       setFavorites([]);
     } catch (err) {
       console.error(err);
