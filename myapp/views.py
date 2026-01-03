@@ -12,19 +12,28 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.permissions import BasePermission, SAFE_METHODS, IsAuthenticated, IsAdminUser
 
 # Create your views here.
+class IsAdminOrReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        return request.user and request.user.is_staff
+
 @method_decorator(csrf_protect, name='dispatch')
 class DramaListCreate(generics.ListCreateAPIView):
     queryset = Drama.objects.all().order_by('-created_at')
     serializer_class = DramaSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 class DramaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Drama.objects.all()
     serializer_class = DramaSerializer
+    permission_classes = [IsAdminUser]
 
 class FavoriteViewSet(viewsets.ViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def list(self, request):
         favorites = Favorite.objects.filter(user=request.user).select_related("drama")
@@ -66,8 +75,9 @@ def tmdb_search(request):
     if not title: 
         return JsonResponse({"error": "Missing title parameter"}, status=400)
     
-    tmdb_url = (f"https://api.themoviedb.org/3/search/tv?"
-                f"api_key={api_key}&query={title}&language=ko&region=KR"
+    tmdb_url = (
+        f"https://api.themoviedb.org/3/search/tv?"
+        f"api_key={api_key}&query={title}&language=ko&region=KR"
     )
     
     res = requests.get(tmdb_url)
@@ -128,6 +138,7 @@ def check_auth(request):
     if request.user.is_authenticated:
         return JsonResponse({
             "authenticated": True,
-            "username": request.user.username
+            "username": request.user.username,
+            "is_admin": request.user.is_staff
         })
     return JsonResponse({"authenticated": False})

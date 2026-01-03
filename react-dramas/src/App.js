@@ -13,99 +13,91 @@ import DramasFavorites from "./DramasFavorites";
 import DramasDelete from "./DramasDelete";
 import "./App.css";
 
-function AnimatedRoutes({ dramas, setDramas, isAuthenticated, setShowLogin, isFavorited, handleFavorite, favorites, 
-  setDeleteModalOpen, setDramaToDelete, handleDelete }) {
-    
-    const navigate = useNavigate();
-    const location = useLocation();
+function AnimatedRoutes({ dramas, setDramas, isAdmin, isAuthenticated, setShowLogin, isFavorited, 
+  handleFavorite, favorites, setDeleteModalOpen, setDramaToDelete, handleDelete }) {   
 
-    const handleEdit = (id) => {
-    if (!isAuthenticated) {
-      setShowLogin(true);
-      return;
-    }
-    navigate(`/edit/${id}`);
-    }
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    const page_motion = {
-      initial: { opacity: 0, scale: 0.98, y: 10 },
-      animate: { opacity: 1, scale: 1, y: 0 },
-      exit: { opacity: 0, scale: 0.98, y: -10 },
-      transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }
-    }
+  const handleEdit = (id) => {
+  if (!isAuthenticated) {
+    setShowLogin(true);
+    return;
+  }
+  navigate(`/edit/${id}`);
+  }
 
-    return (
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route 
-            path="/" 
-            element={
-              <motion.div
-                {...page_motion}
-              >
-                <Dramas 
-                  dramas={dramas}
-                  isFavorited={isFavorited} 
-                  handleFavorite={handleFavorite}
-                  handleDelete={handleDelete}
-                  handleEdit={handleEdit}
-                />
-              </motion.div>
-            } 
-          />
-          <Route 
-            path="/add" 
-            element={
-              <motion.div
-                {...page_motion}
-              >
-                <DramasAdd 
-                  setDramas={setDramas}
-                />
-              </motion.div>
-            } 
-          />
-          <Route 
-            path="/edit/:id/" 
-            element={
-              <motion.div
-                {...page_motion}
-              >
-                <DramasEdit 
-                  setDramas={setDramas}
-                />
-              </motion.div>
-            }
-          />
-          <Route 
-            path="/login" 
-            element={
-              <motion.div
-                {...page_motion}
-              >
-                <DramasLogin />
-              </motion.div>
-            } 
-          />
-          <Route 
-            path="/favorites" 
-            element={
-              <motion.div
-                {...page_motion}
-              >
-                <DramasFavorites 
-                  isFavorited={isFavorited} 
-                  handleFavorite={handleFavorite}
-                  favorites={favorites}
-                  handleDelete={handleDelete}
-                  handleEdit={handleEdit}
-                />
-              </motion.div>
-            } 
-          />
-        </Routes>
-      </AnimatePresence>
-    )
+  const page_motion = {
+    initial: { opacity: 0, scale: 0.98, y: 10 },
+    animate: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.98, y: -10 },
+    transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }
+  }
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route 
+          path="/" 
+          element={
+            <motion.div
+              {...page_motion}
+            >
+              <Dramas 
+                dramas={dramas}
+                isAdmin={isAdmin}
+                isFavorited={isFavorited} 
+                handleFavorite={handleFavorite}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
+              />
+            </motion.div>
+          } 
+        />
+        <Route 
+          path="/add" 
+          element={
+            <motion.div
+              {...page_motion}
+            >
+              <DramasAdd 
+                setDramas={setDramas}
+              />
+            </motion.div>
+          } 
+        />
+        <Route 
+          path="/edit/:id/" 
+          element={
+            <motion.div
+              {...page_motion}
+            >
+              <DramasEdit
+                setDramas={setDramas}
+              />
+            </motion.div>
+          }
+        />
+        <Route 
+          path="/favorites" 
+          element={
+            <motion.div
+              {...page_motion}
+            >
+              <DramasFavorites 
+                isAdmin={isAdmin}
+                isFavorited={isFavorited} 
+                handleFavorite={handleFavorite}
+                favorites={favorites}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
+              />
+            </motion.div>
+          } 
+        />
+      </Routes>
+    </AnimatePresence>
+  )
 }
 
 function App() {
@@ -115,6 +107,7 @@ function App() {
   const [showSignup, setShowSignup] = useState(false);
   const [favorites, setFavorites] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [dramaToDelete, setDramaToDelete] = useState(null);
@@ -124,60 +117,55 @@ function App() {
       .get("/api/dramas/", { withCredentials: true })
       .then(res => setDramas(res.data))
       .catch(err => console.error(err));
-
-    const checkAuth = async () => {
-      try {
-        const res = await axios.get("/api/check-auth/", { withCredentials: true })
-        if (res.data.authenticated) {
-          setIsAuthenticated(true);
-          const favRes = await axios.get("/favorites/", { withCredentials: true })
-          setFavorites(favRes.data);
-        }
-      } catch (err) {
-        setIsAuthenticated(false);
-      }
-    };
-
-    checkAuth();
   }, []);
 
+  const checkAuth = async () => {
+    try {
+      const res = await axios.get("/api/check-auth/", { withCredentials: true })
+      setIsAuthenticated(res.data.authenticated);
+      setIsAdmin(res.data.is_admin);
+    } catch (err) {
+      setIsAuthenticated(false);
+      setIsAdmin(false);
+    }
+  };
+
   const isFavorited = (id) => {
-          return favorites.some(fav => fav.drama.id === id);
-      }
+      return favorites.some(fav => fav.drama.id === id);
+  }
   
   const toggleFavorite = async (id) => {
-      try {
-          const fav = favorites.find(f => f.drama.id === id);
-          
-          if (fav) {
-              await axios.delete(`/favorites/${fav.id}/`, { 
-                  withCredentials: true, 
-                  headers: { "X-CSRFToken": getCookie("csrftoken") },
-              });
-              setFavorites(prev => prev.filter(f => f.drama.id !== id));
-          } else {
-              const res = await axios.post(
-                  "/favorites/", 
-                  { drama_id: id}, 
-                  { 
-                      withCredentials: true,
-                      headers: { "X-CSRFToken": getCookie("csrftoken") }, 
-                  }
-              );
-              setFavorites(prev => [...prev, res.data]);
+    try {
+      const fav = favorites.find(f => f.drama.id === id);
+      
+      if (fav) {
+        await axios.delete(`/favorites/${fav.id}/`, { 
+          withCredentials: true, 
+          headers: { "X-CSRFToken": getCookie("csrftoken") },
+        });
+        setFavorites(prev => prev.filter(f => f.drama.id !== id));
+      } else {
+        const res = await axios.post(
+          "/favorites/", 
+          { drama_id: id}, 
+          { 
+              withCredentials: true,
+              headers: { "X-CSRFToken": getCookie("csrftoken") }, 
           }
-
-      } catch (err) {
-          console.error(err);
+        );
+        setFavorites(prev => [...prev, res.data]);
       }
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   const handleFavorite = (id) => {
-      if (!isAuthenticated) {
-          setShowLogin(true);
-          return;
-      }
-      toggleFavorite(id);
+    if (!isAuthenticated) {
+      setShowLogin(true);
+      return;
+    }
+    toggleFavorite(id);
   };
 
   const handleLogout = async () => {
@@ -238,7 +226,9 @@ function App() {
           <h1>K-Stream</h1>
           <nav className="main-nav">
             <Link to="/">Home</Link>
-            <Link to="/add">Add K-Drama</Link>
+            {isAdmin && (
+              <Link to="/add">Add K-Drama</Link>
+            )}
             <Link to="/favorites">Favorites</Link>
             
             {!isAuthenticated ? (
@@ -253,6 +243,7 @@ function App() {
                 >
                   <User size={28} color="white" />
                 </button>
+                
                 {dropdownOpen && (
                   <div className="dropdown-content">
                     <button className="logout-btn" onClick={handleLogout}>
@@ -269,6 +260,7 @@ function App() {
           dramas={dramas}
           setDramas={setDramas}
           isAuthenticated={isAuthenticated}
+          isAdmin={isAdmin}
           setShowLogin={setShowLogin}
           isFavorited={isFavorited}
           handleFavorite={handleFavorite}
@@ -281,15 +273,15 @@ function App() {
         <AnimatePresence>
           {showLogin && (
             <DramasLogin 
-                animation={modalMotion}
-                onClose={() => setShowLogin(false)}
-                onOpen={() => setShowSignup(true)}
-                onSuccess={() => {
-                  setIsAuthenticated(true);
-                    axios
-                      .get("/favorites/", { withCredentials: true })
-                      .then(res => setFavorites(res.data));                       
-                }}
+              animation={modalMotion}
+              onClose={() => setShowLogin(false)}
+              onOpen={() => setShowSignup(true)}
+              onSuccess={() => {
+                checkAuth();
+                axios
+                  .get("/favorites/", { withCredentials: true })
+                  .then(res => setFavorites(res.data));                       
+              }}
             />
           )}
         </AnimatePresence>
@@ -301,10 +293,10 @@ function App() {
               onClose={() => setShowSignup(false)}
               onOpen={() => setShowLogin(true)}
               onSuccess={() => {
-                setIsAuthenticated(true);
-                  axios
-                    .get("/favorites/", { withCredentials: true })
-                    .then(res => setFavorites(res.data));                       
+                checkAuth();
+                axios
+                  .get("/favorites/", { withCredentials: true })
+                  .then(res => setFavorites(res.data));                       
               }}
             />
           )}

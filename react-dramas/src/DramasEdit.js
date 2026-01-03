@@ -20,9 +20,8 @@ function DramasEdit({ setDramas }) {
 
             try {
                 const res = await axios.get(`/api/dramas/${id}/`, {
-                        withCredentials: true
-                    }
-                );
+                    withCredentials: true
+                });
                 setFormData(res.data);
             } catch (err) {
                 console.error(err);
@@ -45,6 +44,7 @@ function DramasEdit({ setDramas }) {
                 const res = await fetch(
                     `/api/tmdb_search/?title=${encodeURIComponent(payload.title)}`
                 );
+
                 const data = await res.json();
                 const filtered = data.results.filter(
                     r => r.original_language === "ko" && r.first_air_date.startsWith(payload.release_date.slice(0,4))

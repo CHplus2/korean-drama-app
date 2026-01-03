@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-function Dramas({ isFavorited, handleFavorite, handleDelete, handleEdit, dramas }) {
+function Dramas({ dramas, isAdmin, isFavorited, handleFavorite, handleDelete, handleEdit }) {
     const [query, setQuery] = useState("");
     const [debouncedQuery, setDebouncedQuery] = useState(query)
     const [genreFilter, setGenreFilter] = useState("");
@@ -115,21 +115,26 @@ function Dramas({ isFavorited, handleFavorite, handleDelete, handleEdit, dramas 
                                         {new Date(m.release_date).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'})}
                                     </p>
                                 </div>
-
-                                <div className="card-actions">
-                                    <button className="btn-icon" aria-label="Edit" onClick={() => handleEdit(m.id)}>
-                                        <EditIcon fontSize="small" />
-                                    </button>
-                                    <button className="btn-icon" aria-label="Delete" onClick={() => handleDelete(m)}>
-                                        <DeleteIcon fontSize="small" />
-                                    </button>
-                                </div>
+                                
+                                {isAdmin && (
+                                    <div className="card-actions">
+                                        <button className="btn-icon" aria-label="Edit" onClick={() => handleEdit(m.id)}>
+                                            <EditIcon fontSize="small" />
+                                        </button>
+                                        <button className="btn-icon" aria-label="Delete" onClick={() => handleDelete(m)}>
+                                            <DeleteIcon fontSize="small" />
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
                 </motion.div>  
-            )}    
+            )}
+
+            {isAdmin && (
                 <Link to="/add" className="back-link">Add K-Drama</Link>
+            )}  
         </div>
     );
 }

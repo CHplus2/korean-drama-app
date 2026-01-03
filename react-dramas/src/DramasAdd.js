@@ -42,9 +42,9 @@ function DramasAdd( { setDramas } ) {
             }
 
             const res = await axios.post("/api/dramas/", payload, {
-                        withCredentials: true,
-                        headers: { "X-CSRFToken": getCookie("csrftoken") }
-                    });
+                withCredentials: true,
+                headers: { "X-CSRFToken": getCookie("csrftoken") }
+            });
             
             setDramas(prev => [...prev, res.data]);
             setFormData({ 

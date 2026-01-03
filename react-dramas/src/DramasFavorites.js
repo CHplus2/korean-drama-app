@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-function DramasFavorites({ isFavorited, handleFavorite, favorites, handleEdit, handleDelete, }) {
+function DramasFavorites({ isAdmin, isFavorited, handleFavorite, favorites, handleEdit, handleDelete, }) {
 
     return (
         <div className="dramas-page">
@@ -48,8 +48,11 @@ function DramasFavorites({ isFavorited, handleFavorite, favorites, handleEdit, h
                         </div>
                     ))}
                 </div>
-            )}    
+            )}
+
+            {isAdmin && (
                 <Link to="/add" className="back-link">Add K-Drama</Link>
+            )}    
         </div>
     );
 }
