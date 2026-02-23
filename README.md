@@ -37,10 +37,10 @@ A full-stack web application built with React and Django REST Framework that all
 
 
 ## Screenshots
-![Home Page](Shows.png)
-![Add Form Page](ShowsForm.png)
-![Login Page](ShowsLogin.png)
-![Signup Page](ShowsSignup.png)
+![Home Page](Shows.jpg)
+![Add Form Page](ShowsForm.jpg)
+![Favourites Pagr](ShowsFavourites.jpg)
+![Login Page](ShowsLogin.jpg)
 
 
 ## Project Structure
