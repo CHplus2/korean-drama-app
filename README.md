@@ -36,6 +36,12 @@ A full-stack web application built with React and Django REST Framework that all
 * TMDB (The Movie Database)
 
 
+## Screenshots
+![Home Page](Shows.png)
+![Add Form Page](ShowsForm.png)
+![Login Page](ShowsLogin.png)
+![Signup Page](ShowsSignup.png)
+
 
 ## Project Structure
 
